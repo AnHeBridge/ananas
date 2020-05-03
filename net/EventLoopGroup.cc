@@ -49,7 +49,8 @@ void EventLoopGroup::Start() {
             loop->Run();
         });
     }
-
+	//std::this_thread::sleep_for(std::chrono::seconds(1));
+	//条件变量虚假唤醒、sleep不接收唤醒notify也可通过、可gdb看lambda返回值后结束
     std::unique_lock<std::mutex> guard(mutex_);
     cond_.wait(guard, [this] () {
         return loops_.size() == numLoop_;

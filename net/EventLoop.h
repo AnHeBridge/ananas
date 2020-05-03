@@ -263,7 +263,7 @@ Future<void> EventLoop::Execute(F&& f, Args&&... args) {
     if (InThisLoop()) {
         std::forward<F>(f)(std::forward<Args>(args)...);
         promise.SetValue();
-    } else {
+    } else { //muduo 线程唤醒
         auto task = std::bind(std::forward<F>(f), std::forward<Args>(args)...);
         auto func = [t = std::move(task), pm = std::move(promise)]() mutable {
             try {

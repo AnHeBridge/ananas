@@ -1,6 +1,5 @@
 #include <cassert>
 #include "ThreadPool.h"
-
 namespace ananas {
 
 thread_local bool ThreadPool::working_ = true;
@@ -94,7 +93,7 @@ void ThreadPool::_WorkerRoutine() {
             task = std::move(tasks_.front());
             tasks_.pop_front();
         }
-
+		//这里的task会把进入该线程对应eventloop的loop循环中(首次注册执行的就是eventloop的创建和event->loop),此后这里就会卡死，其他线程进入再创建自己的eventloop
         task();
     }
 

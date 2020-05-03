@@ -25,14 +25,14 @@ void OnNewConnection(ananas::Connection* conn) {
 
 
 int main(int ac, char* av[]) {
-    size_t workers = 1;
+    size_t workers = 2;
     if (ac > 1)
         workers = (size_t)std::stoi(av[1]);
 
     ananas::LogManager::Instance().Start();
-    logger = ananas::LogManager::Instance().CreateLog(logALL, logALL, "logger_server_test");
+    logger = ananas::LogManager::Instance().CreateLog(logALL, logALL, "logger_server_test"); //日志线程
 
-    auto& app = ananas::Application::Instance();
+    auto& app = ananas::Application::Instance(); //baseGroup_,workerGroup_各开一个线程
     app.SetNumOfWorker(workers);
     app.Listen("localhost", 9987, OnNewConnection);
 

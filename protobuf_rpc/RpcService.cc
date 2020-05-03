@@ -156,7 +156,7 @@ rpc::Service* ServerChannel::Service() const {
     return service_;
 }
 
-Connection* ServerChannel::Connection() const {
+Connection* ServerChannel::get_Connection() const {
     return conn_;
 }
 
@@ -188,7 +188,7 @@ bool ServerChannel::OnMessage(std::shared_ptr<Message>&& req) {
         } else {
             throw Exception(ErrorCode::EmptyRequest,
                             "Service  [" + Service()->FullName() + \
-                            "] expect request from " + Connection()->Peer().ToString());
+                            "] expect request from " + get_Connection()->Peer().ToString());
         }
     } else {
         currentId_ = -1;
